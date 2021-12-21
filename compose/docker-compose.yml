@@ -19,9 +19,6 @@ services:
       - "80:8000"
       - "443:8443"
     volumes: &appvolumes
-      - ~/.composer:/var/www/.composer:cached
-      - ~/.ssh/id_rsa:/var/www/.ssh/id_rsa:cached
-      - ~/.ssh/known_hosts:/var/www/.ssh/known_hosts:cached
       - appdata:/var/www/html
       - sockdata:/sock
       - ssldata:/etc/nginx/certs
@@ -32,10 +29,6 @@ services:
       - "db:172.17.0.1"
       - "redis:172.17.0.1"
       - "elasticsearch:172.17.0.1"
-      - "rabbitmq:172.17.0.1"
-      ## Selenium support, replace "magento.test" with URL of your site
-      - "magento.test:172.17.0.1"
-
   phpfpm:
     image: markoshust/magento-php:7.4-fpm-12
     volumes: *appvolumes
@@ -66,32 +59,8 @@ services:
     env_file: env/elasticsearch.env
     extra_hosts: *appextrahosts
 
-  rabbitmq:
-    image: rabbitmq:3.8.22-management-alpine
-    ports:
-      - "15672:15672"
-      - "5672:5672"
-    volumes:
-      - rabbitmqdata:/var/lib/rabbitmq
-    env_file: env/rabbitmq.env
-    extra_hosts: *appextrahosts
-
-  mailcatcher:
-    image: sj26/mailcatcher
-    ports:
-      - "1080:1080"
-    extra_hosts: *appextrahosts
-
-  ## Selenium support, uncomment to enable
-  #selenium:
-  #  image: selenium/standalone-chrome-debug:3.8.1
-  #  ports:
-  #    - "5900:5900"
-  #  extra_hosts: *appextrahosts
-
 volumes:
   appdata:
   dbdata:
-  rabbitmqdata:
   sockdata:
   ssldata:
