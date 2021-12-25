@@ -8,7 +8,7 @@ source env/elasticsearch.env
 # shellcheck source=../env/magento.env
 source env/magento.env
 # shellcheck source=../env/rabbitmq.env
-source env/rabbitmq.env
+#source env/rabbitmq.env
 
 
 DOMAIN=${1:-magento.test}
@@ -30,13 +30,13 @@ bin/clinotty timeout 100 bash -c "
 [ $? != 0 ] && echo "Failed to connect to Elasticsearch" && exit
 
 echo ""
-echo "Waiting for connection to RabbitMQ..."
-rabbitmqi=10
-until [ $rabbitmqi -le 0 ]; do
-    printf '.'
-    (( rabbitmqi-- ))
-    sleep 2
-done
+#echo "Waiting for connection to RabbitMQ..."
+#rabbitmqi=10
+#until [ $rabbitmqi -le 0 ]; do
+#    printf '.'
+#    (( rabbitmqi-- ))
+#    sleep 2
+#done
 
 bin/clinotty bin/magento setup:install \
   --db-host="$MYSQL_HOST" \
@@ -54,11 +54,6 @@ bin/clinotty bin/magento setup:install \
   --language="$MAGENTO_LOCALE" \
   --currency="$MAGENTO_CURRENCY" \
   --timezone="$MAGENTO_TIMEZONE" \
-  --amqp-host="$RABBITMQ_HOST" \
-  --amqp-port="$RABBITMQ_PORT" \
-  --amqp-user="$RABBITMQ_DEFAULT_USER" \
-  --amqp-password="$RABBITMQ_DEFAULT_PASS" \
-  --amqp-virtualhost="$RABBITMQ_DEFAULT_VHOST" \
   --cache-backend=redis \
   --cache-backend-redis-server=redis \
   --cache-backend-redis-db=0 \
