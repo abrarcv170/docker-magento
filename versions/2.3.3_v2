@@ -42,7 +42,7 @@ services:
     extra_hosts: *appextrahosts
 
   elasticsearch:
-    image: abrarcv170/elasticsearch:6.8
+    image: markoshust/magento-elasticsearch:7.9.3-0
     ports:
       - "9200:9200"
       - "9300:9300"
