@@ -21,7 +21,7 @@ services:
     volumes: *appvolumes
 
   db:
-    image: percona:5.7
+    image: mariadb:10.1
     ports:
       - "3306:3306"
     env_file: env/db.env
