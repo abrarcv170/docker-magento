@@ -69,6 +69,8 @@ bin/clinotty bin/magento setup:install \
 #  --elasticsearch-port=$ES_PORT \
 #  --use-rewrites=1
 
+bin/clinotty bin/magento  config:set admin/url/use_custom 0
+
 echo "Copying files from container to host after install..."
 bin/copyfromcontainer --all
 
